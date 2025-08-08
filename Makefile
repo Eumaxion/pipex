@@ -1,20 +1,26 @@
 NAME = pipex
 
-SRCS = main.c
+SRCS = main.c errors.c parse.c
 
-OBJ = $(SRCS:.c=.o)
+OBJS = $(SRCS:.c=.o)
 
 CC = cc
 
-FLAGS += -Wall -Werror -Wextra
+CFLAGS += -Wall -Werror -Wextra
 
-all:
+all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@echo "\n------------- COMPILATION DONE -------------\n"
 
 clean: 
+	@rm -f $(OBJS)
+	@echo "\n------------- OBJECTS REMOVED -------------\n"
 
 fclean: clean
+	@rm -f $(NAME)
+	@echo "\n------------- EXECUTABLES REMOVED -------------\n"
 
 re: fclean all
 
