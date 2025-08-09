@@ -34,7 +34,6 @@ int	check_write(char *args)
 	else
 	{
 		int fd_out = open(args, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		write(fd_out, "Hello!\n", 7);
 		close(fd_out);
 		return (0);
 	}
