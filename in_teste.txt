@@ -1,0 +1,26 @@
+./pipex in "comando1" "comando2" out
+
+teste < 4 arq
+teste algum arg vazio
+teste in_txt sem permissoes
+teste out_txt sem permissoes
+
+
+lógica:
+
+Preparação (setup)
+Criar variáveis
+Definir arquivos temporários
+Configurar ambiente
+
+Execução (run)
+Rodar o comando ou programa que quer testar
+Capturar saída e/ou erros
+
+Verificação (assert)
+Comparar saída com o esperado
+Conferir códigos de saída (exit codes)
+
+Limpeza (teardown)
+Apagar arquivos temporários
+Restaurar configurações

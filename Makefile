@@ -8,19 +8,24 @@ CC = cc
 
 CFLAGS += -Wall -Werror -Wextra
 
+GREEN  := \033[0;32m
+RED    := \033[0;31m
+YELLOW := \033[1;33m
+RESET  := \033[0m
+
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "\n------------- COMPILATION DONE -------------\n"
+	@echo "$(GREEN)\n COMPILATION DONE \n$(RESET)"
 
 clean: 
 	@rm -f $(OBJS)
-	@echo "\n------------- OBJECTS REMOVED -------------\n"
+	@echo "$(YELLOW)\n OBJECTS REMOVED $(RESET)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "\n------------- EXECUTABLES REMOVED -------------\n"
+	@echo "$(RED)\n EXECUTABLES REMOVED $(RESET)"
 
 re: fclean all
 
