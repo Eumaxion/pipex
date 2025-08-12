@@ -17,15 +17,15 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)\n COMPILATION DONE \n$(RESET)"
+	@echo "$(GREEN)\n COMPILATION DONE ✅ \n$(RESET) "
 
 clean: 
 	@rm -f $(OBJS)
-	@echo "$(YELLOW)\n OBJECTS REMOVED $(RESET)"
+	@echo "$(YELLOW)\n OBJECTS REMOVED $(RESET) ✅ \n"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "$(RED)\n EXECUTABLES REMOVED $(RESET)"
+	@echo "$(RED)\n EXECUTABLES REMOVED $(RESET) ✅ \n"
 
 re: fclean all
 

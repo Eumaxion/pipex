@@ -1,70 +1,75 @@
 #!/bin/bash
-# -----------------------------------------
-# Script de testes automáticos para push_swap
-# -----------------------------------------
 
-# Cores para deixar a saída mais legível
-verde="\033[0;32m"
-vermelho="\033[0;31m"
+# Cores
+verde="\033[1;32m"
+vermelho="\033[1;31m"
 amarelo="\033[1;33m"
 reset="\033[0m"
 
-# Contadores para estatísticas no final
-total=0
-passou=0
-falhou=0
+PIPEX=./pipex   # Caminho para o seu executável
 
-# Função para rodar um teste
-# Parâmetros:
-#   1 = lista de números para testar
-#   2 = número máximo de movimentos permitidos (opcional)
-teste() {
-    lista="$1"
-    max_moves=$2
-    total=$((total + 1))
+# Função para executar teste
+run_test() {
+    descricao=$1
+    shift
+    cmd="$@"
 
-    # Executa push_swap e captura saída
-    saida=$(./push_swap $lista)
-
-    # Conta quantas linhas (movimentos) a saída tem
-    moves=$(echo "$saida" | wc -l)
-
-    # Roda o checker para verificar se a saída está correta
-    resultado=$(echo "$saida" | ./checker $lista)
-
-    # Verifica se o resultado é "OK"
-    if [ "$resultado" = "OK" ]; then
-        if [ -n "$max_moves" ] && [ "$moves" -gt "$max_moves" ]; then
-            echo -e "${amarelo}⚠️  Teste $total: Correto, mas passou do limite ($moves movimentos)${reset}"
-        else
-            echo -e "${verde}✅ Teste $total: OK ($moves movimentos)${reset}"
-            passou=$((passou + 1))
-        fi
+    echo -ne "${amarelo}$descricao:${reset} "
+    $cmd >/dev/null 2>&1
+    ret=$?
+    if [ $ret -ne 0 ]; then
+        echo -e "${verde}[OK]${reset}"
     else
-        echo -e "${vermelho}❌ Teste $total: Falhou ($resultado)${reset}"
-        falhou=$((falhou + 1))
+        echo -e "${vermelho}[FAIL]${reset} (ret=$ret)"
     fi
 }
 
-# -----------------------------------------
-# Casos de teste fixos
-# -----------------------------------------
-teste "2 1"
-teste "3 2 1"
-teste "1 5 2 4 3"
+# Preparação de arquivos
+echo "arquivo normal" > in.txt
+echo "out file" > out.txt
 
-# -----------------------------------------
-# Casos aleatórios
-# -----------------------------------------
-for i in {1..5}; do
-    lista=$(seq 1 5 | shuf) # gera números 1..5 embaralhados
-    teste "$lista" 12       # define limite de 12 movimentos
-done
+# Testes
+run_test "1. Arquivo de entrada inexistente" \
+    $PIPEX nofile.txt "ls" "wc" out.txt
 
-# -----------------------------------------
-# Relatório final
-# -----------------------------------------
-echo -e "\n${amarelo}Resumo:${reset}"
-echo -e " Total: $total"
-echo -e " Passou: ${verde}$passou${reset}"
-echo -e " Falhou: ${vermelho}$falhou${reset}"
+chmod 000 in.txt
+run_test "2. Arquivo de entrada sem permissão" \
+    $PIPEX in.txt "ls" "wc" out.txt
+chmod 644 in.txt
+
+chmod 444 out.txt
+run_test "3. Arquivo de saída sem permissão" \
+    $PIPEX in.txt "ls" "wc" out.txt
+chmod 644 out.txt
+
+run_test "4. Comando inexistente" \
+    $PIPEX in.txt "comando_que_nao_existe" "wc" out.txt
+
+echo "echo teste" > script.sh && chmod 000 script.sh
+run_test "5. Sem permissão de execução" \
+    $PIPEX in.txt "./script.sh" "wc" out.txt
+chmod 755 script.sh
+
+run_test "6. Argumentos insuficientes" \
+    $PIPEX in.txt "ls"
+
+run_test "7. Argumento inválido no comando" \
+    $PIPEX in.txt "ls --opcao_invalida" "wc" out.txt
+
+run_test "8. PATH vazio" \
+    env PATH="" $PIPEX in.txt "ls" "wc" out.txt
+
+run_test "9. PATH errado" \
+    env PATH="/abc" $PIPEX in.txt "ls" "wc" out.txt
+
+mkdir dir_in
+run_test "10. Arquivo de entrada é diretório" \
+    $PIPEX dir_in "ls" "wc" out.txt
+rmdir dir_in
+
+mkdir dir_out
+run_test "11. Arquivo de saída é diretório" \
+    $PIPEX in.txt "ls" "wc" dir_out
+rmdir dir_out
+
+rm -f script.sh in.txt out.txt

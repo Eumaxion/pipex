@@ -13,5 +13,6 @@ int		main(int argc, char **argv);
 int		check_read(char *args);
 int		check_write(char *args);
 int		error_exit(int erro_n, char *name);
+int		check_empty(int argc, char **argv);
 
 #endif

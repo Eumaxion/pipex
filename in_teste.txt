@@ -1,10 +1,18 @@
 ./pipex in "comando1" "comando2" out
 
 teste < 4 arq
-teste algum arg vazio
-teste in_txt sem permissoes
-teste out_txt sem permissoes
-
+Arquivo de entrada inexistente -  open(infile, O_RDONLY) falha → errno = ENOENT
+teste algum arg vazio 
+teste in_txt sem permissoes de entrada - open() falha → errno = EACCES
+teste out_txt sem permissoes de escrita - open(outfile, O_WRONLY|O_CREAT|O_TRUNC, 0644) falha
+Comando inexistente - execve() falha → errno = ENOENT
+Comando existente mas sem permissão de execução - execve() falha → errno = EACCES
+Comando com argumentos inválidos - execve() roda, mas comando retorna código de erro.
+PATH vazio
+PATH errado
+Arquivo de entrada é um diretório - open() falha com EISDIR
+Arquivo de saída é um diretório - open() falha com EISDIR
+Falha no pipe()
 
 lógica:
 
@@ -24,3 +32,4 @@ Conferir códigos de saída (exit codes)
 Limpeza (teardown)
 Apagar arquivos temporários
 Restaurar configurações
+
