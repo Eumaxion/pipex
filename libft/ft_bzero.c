@@ -1,16 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/12 16:54:17 by mlima-si          #+#    #+#             */
-/*   Updated: 2025/08/12 17:21:52 by mlima-si         ###   ########.fr       */
+/*   Created: 2025/04/10 13:16:15 by mlima-si          #+#    #+#             */
+/*   Updated: 2025/04/16 15:50:36 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./include/pipex.h"
+#include "libft.h"
 
+void	ft_bzero(void *s, size_t n)
+{
+	size_t			i;
+	unsigned char	*str;
 
-
+	i = 0;
+	str = s;
+	while (i < n)
+	{
+		str[i] = 0;
+		i++;
+	}
+}

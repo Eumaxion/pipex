@@ -1,27 +1,29 @@
-#include "pipex.h"
+#include "./include/pipex.h"
 
 int	main(int argc, char **argv)
 {
-	if (argc == 5)
+	int fd1;
+	int fd2;
+
+	if (argc > 4 || (argc > 5 && !check_empty(argc, argv)))
 	{
-			if(check_read(argv[1]) || check_write(argv[argc-1]) || check_empty(argc, argv))
-				return (1);
-			else
-				return (0);
-		}
+		ft_init_pipex(argc, argv);
+		fd1 = open(argv[1], O_RDONLY);
+		fd2 = open(argv[argc-1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+/* 		ft_check_args(argv);
+		ft_parse_cmds(argv);
+		ft_parse_args(argv);
+		while (cmds)
+			ft_exec(argv);
+		ft_cleanup(argv); */
+	}
 	else
 		return(1);
 }
 /* 
 main()
 {
-	ft_init_pipex()
-	ft_check_args()
-	ft_parse_cmds()
-	ft_parse_args()
-	while (cmds)
-		ft_exec()
-	ft_cleanup()
+
 }
 ft_exec()
 {
@@ -40,7 +42,8 @@ ft_exec()
 
 
 
-/*     main.c — valida args, prepara estruturas iniciais, chama função pipeline.
+/*    
+	main.c — valida args, prepara estruturas iniciais, chama função pipeline.
 
     parser.c — parse de comandos e PATH.
 

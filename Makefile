@@ -1,8 +1,10 @@
 NAME = pipex
 
-SRCS = main.c errors.c parse.c
+SRCS = main.c errors.c parse.c init_pipex.c
 
 OBJS = $(SRCS:.c=.o)
+
+LIBFT = ./libft/libft.a
 
 CC = cc
 
@@ -16,14 +18,20 @@ RESET  := \033[0m
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@cd libft && make
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)\n COMPILATION DONE ✅ \n$(RESET) "
 
-clean: 
+.c.o:
+	@$(CC) $(FLAGS) -c  $< -o ${<:.c=.o}
+
+clean:
+	@make -C libft clean
 	@rm -f $(OBJS)
 	@echo "$(YELLOW)\n OBJECTS REMOVED $(RESET) ✅ \n"
 
 fclean: clean
+	@make -C libft fclean
 	@rm -f $(NAME)
 	@echo "$(RED)\n EXECUTABLES REMOVED $(RESET) ✅ \n"
 

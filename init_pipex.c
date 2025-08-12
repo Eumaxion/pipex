@@ -1,0 +1,79 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_pipex.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/12 17:22:01 by mlima-si          #+#    #+#             */
+/*   Updated: 2025/08/12 17:47:31 by mlima-si         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "./include/pipex.h"
+
+int	check_read(char *args)
+{
+	if (access(args, F_OK) == 0)
+	{
+		if (access(args, R_OK) == 0)
+			return (0);
+		else
+		{
+			perror("");
+			return (1);
+		}
+	}
+	else
+	{
+		perror("");
+		return (1);
+	}
+}
+
+int	check_write(char *args)
+{
+	if (access(args, F_OK) == 0)
+	{
+		if (access(args, W_OK) == 0)
+			return (0);
+		else
+		{
+			perror("");
+			return (1);
+		}
+	}
+	else
+	{
+		//int fd_out = open(args, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		return (0);
+	}
+}
+
+int	check_empty(int argc, char **argv)
+{
+	int	i;
+
+	i = 1;
+	while(i <= argc)
+	{
+		if (!argv[i][0])
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_init_pipex(int argc, char **argv)
+{
+	size_t size;
+
+	size = strlen(argv[1]) + 1;
+	if (!ft_strncmp(argv[1], "here_doc", size))
+		return (error_exit());
+	else 
+		if (check_read(argv[1]) || check_write(argv[argc -1]))
+			return (1);
+		else
+			return (0);
+}
