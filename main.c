@@ -2,20 +2,13 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	int fd1;
-	int fd2;
-
 	if (argc > 4)
 	{
-		ft_init_pipex(argc, argv);
-		fd1 = open(argv[1], O_RDONLY);
-		fd2 = open(argv[argc-1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-/* 		ft_check_args(argv);
-		ft_parse_cmds(argv);
-		ft_parse_args(argv);
-		while (cmds)
-			ft_exec(argv);
-		ft_cleanup(argv); */
+		char	**my_paths;
+	
+		validate_files(argc, argv, envp);
+		my_paths = parsing_args(argv, envp);
+		pipex(my_paths);
 	}
 	else
 		return(1);

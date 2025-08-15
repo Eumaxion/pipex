@@ -49,22 +49,7 @@ int	check_write(char *args)
 		return (0);
 	}
 }
-
-int	check_empty(int argc, char **argv)
-{
-	int	i;
-
-	i = 1;
-	while(i <= argc)
-	{
-		if (!argv[i][0])
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	ft_init_pipex(int argc, char **argv)
+int	validate_files(int argc, char **argv, char **env)
 {
 	size_t size;
 
@@ -74,6 +59,5 @@ int	ft_init_pipex(int argc, char **argv)
 	else 
 		if (check_read(argv[1]) || check_write(argv[argc -1]))
 			return (1);
-		else
-			return (0);
+	return (0);
 }

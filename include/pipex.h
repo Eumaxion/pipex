@@ -40,8 +40,10 @@ int		main(int argc, char **argv, char **envp);
 int		check_read(char *args);
 int		check_write(char *args);
 int		error_exit(void);
-int		check_empty(int argc, char **argv);
-int		ft_init_pipex(int argc, char **argv);
+int		validate_files(int argc, char **argv, char **env);
+void	ft_exec(char **my_paths, char *args);
+char	**parsing_args(char **argv, char **env);
 void	free_array(char **str);
+char	*path_not_found(void);
 
 #endif

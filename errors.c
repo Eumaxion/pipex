@@ -17,6 +17,11 @@ int	error_exit()
 	printf("EXIT...\n");
 	exit(1);
 }
+char	*path_not_found(void)
+{
+	write(1, "PATH not found", 15);
+	return (NULL);
+}
 
 void	free_array(char **str)
 {
