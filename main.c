@@ -1,11 +1,11 @@
 #include "./include/pipex.h"
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	int fd1;
 	int fd2;
 
-	if (argc > 4 || (argc > 5 && !check_empty(argc, argv)))
+	if (argc > 4)
 	{
 		ft_init_pipex(argc, argv);
 		fd1 = open(argv[1], O_RDONLY);

@@ -30,14 +30,13 @@ typedef struct s_pipe
 
 # include <stdio.h>      // perror
 # include <string.h>     // strerror
-# include <unistd.h>     // access, dup, dup2, execve, fork, pipe, unlink
-# include <stdlib.h>     // exit
+# include <unistd.h>     // read, write, close, access, dup, dup2, execve, fork, pipe
+# include <stdlib.h>     // malloc, free, exit
 # include <sys/wait.h>   // wait, waitpid
-# include <errno.h>      // errno (usado com perror/strerror)
-# include <fcntl.h>
+# include <fcntl.h>		// open, unlink	
 # include "../libft/libft.h"
 
-int		main(int argc, char **argv);
+int		main(int argc, char **argv, char **envp);
 int		check_read(char *args);
 int		check_write(char *args);
 int		error_exit(void);
