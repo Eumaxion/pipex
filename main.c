@@ -15,7 +15,7 @@ int	main(int argc, char **argv, char **envp)
 			exit_error(1);
 		i = 2;
 		out_file = open(argv[argc - 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		ft_putstr_fd("creating here_doc\n", 1);
+		init_here_doc(argv);
 	}
 	else
 	{

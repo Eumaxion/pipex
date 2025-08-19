@@ -54,7 +54,6 @@ void	pipex(char *cmd, char **envp)
 	{
 		close(pfd[0]);
 		dup2(pfd[1], 1);
-		printf("aaa");
 		call_execve(cmd, envp);
 	}
 	else

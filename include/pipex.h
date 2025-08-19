@@ -38,6 +38,8 @@ typedef struct s_pipe
 
 //----------------------------------------MAIN----------------------------------------//
 int	main(int argc, char **argv, char **envp);
+void	init_here_doc(char **argv);
+void	create_here_doc(int *fd, char **argv);
 
 //----------------------------------------ERRORS---------------------------------------//
 int		exit_error(int i);

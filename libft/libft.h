@@ -13,6 +13,14 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 3
+# endif
+
+# ifndef MAX_FD
+#  define MAX_FD 1024
+# endif
+
 # include <stdlib.h>
 # include <unistd.h>
 
@@ -22,6 +30,11 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+char	*get_next_line(int fd);
+void	ft_memmov_get(char *stash);
+char	*release(char *line, char *stash);
+ssize_t	ft_strchrn(const char *str);
+char	*ft_strjoin_get(char *line, char *stash);
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
