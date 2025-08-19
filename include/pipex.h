@@ -36,14 +36,24 @@ typedef struct s_pipe
 # include <fcntl.h>		// open, unlink	
 # include "../libft/libft.h"
 
-int		main(int argc, char **argv, char **envp);
+//----------------------------------------MAIN----------------------------------------//
+int	main(int argc, char **argv, char **envp);
+
+//----------------------------------------ERRORS---------------------------------------//
+int		exit_error(int i);
+void	free_array(char **str);
+
+//---------------------------------------PARSING---------------------------------------//
+char	**find_path(char **env);
+char	*verify_commands(char *cmd,char **paths);
+int		validate_files(int argc, char **argv, char **env);
 int		check_read(char *args);
 int		check_write(char *args);
-int		error_exit(void);
-int		validate_files(int argc, char **argv, char **env);
-void	ft_exec(char **my_paths, char *args);
-char	**parsing_args(char **argv, char **env);
-void	free_array(char **str);
-char	*path_not_found(void);
+
+//----------------------------------------MAIN----------------------------------------//
+
+//---------------------------------------EXECUTE--------------------------------------//
+void	pipex(char *cmd, char **envp);
+void	call_execve(char *cmd,char **envp);
 
 #endif

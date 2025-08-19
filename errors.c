@@ -12,15 +12,17 @@
 
 #include "./include/pipex.h"
 
-int	error_exit()
+int	exit_error(int i)
 {
-	printf("EXIT...\n");
+	if (i == 1)
+		ft_putstr_fd("Invalid arguments number\n", 2);
+	if (i == 2)
+		ft_putstr_fd("Pipe Error.\n", 2);
+	if (i == 3)
+		ft_putstr_fd("Fork Error.\n", 2);
+	if (i == 4)
+		ft_putstr_fd("PATH not found.\n", 2);	
 	exit(1);
-}
-char	*path_not_found(void)
-{
-	write(1, "PATH not found", 15);
-	return (NULL);
 }
 
 void	free_array(char **str)

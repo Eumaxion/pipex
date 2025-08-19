@@ -17,17 +17,17 @@ int	check_read(char *args)
 	if (access(args, F_OK) == 0)
 	{
 		if (access(args, R_OK) == 0)
-			return (0);
+			return(0);
 		else
 		{
 			perror("");
-			return (1);
+			exit (1);
 		}
 	}
 	else
 	{
 		perror("");
-		return (1);
+		exit (1);
 	}
 }
 
@@ -55,7 +55,7 @@ int	validate_files(int argc, char **argv, char **env)
 
 	size = strlen(argv[1]) + 1;
 	if (!ft_strncmp(argv[1], "here_doc", size))
-		return (error_exit());
+		exit(1);
 	else 
 		if (check_read(argv[1]) || check_write(argv[argc -1]))
 			return (1);
