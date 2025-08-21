@@ -20,14 +20,14 @@ int	check_read(char *args)
 			return(0);
 		else
 		{
-			perror("");
-			exit (1);
+			perror(args);
+			return (1);
 		}
 	}
 	else
 	{
-		perror("");
-		exit (1);
+		perror(args);
+		return (1);
 	}
 }
 
@@ -39,25 +39,21 @@ int	check_write(char *args)
 			return (0);
 		else
 		{
-			perror("");
+			perror(args);
 			return (1);
 		}
 	}
-	else
-	{
-		//int fd_out = open(args, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		return (0);
-	}
+	return (0);
 }
-int	validate_files(int argc, char **argv, char **env)
-{
-	size_t size;
 
-	size = strlen(argv[1]) + 1;
-	if (!ft_strncmp(argv[1], "here_doc", size))
-		exit(1);
-	else 
-		if (check_read(argv[1]) || check_write(argv[argc -1]))
-			return (1);
+int	validate_files(int argc, char **argv)
+{
+	if (check_read(argv[1]))
+	{
+		check_write(argv[argc -1]);
+		exit (1);
+	}
+	if (check_write(argv[argc -1]))
+		exit (1);
 	return (0);
 }

@@ -1,6 +1,6 @@
 NAME = pipex
 
-SRCS = main.c errors.c parse.c validade_args.c ft_exec.c
+SRCS = main.c errors.c parse.c validade_files.c ft_exec.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "./include/pipex.h"
+
 void	create_here_doc(int *fd, char **argv)
 {
 	char	*line;
@@ -38,28 +39,11 @@ void	init_here_doc(char **argv)
 		perror("pipe");
 	pid = fork();
 	if (!pid)
-	{
 		create_here_doc(pfd, argv);
-	}
 	else
 	{
 		close(pfd[1]);
 		dup2(pfd[0], 0);
 		wait(NULL);
 	}
-}
-char	**find_path(char **env)
-{
-	char	*available_paths;
-	char	**my_paths;
-	int		i;
-
-	i = 0;
-	while (env[i] && !ft_strnstr(env[i], "PATH=", 5))
-		i++;
-	if (!env[i])
-		return (NULL);
-	available_paths = ft_substr(env[i], 5, ft_strlen(env[i] + 5));
-	my_paths = ft_split(available_paths, ':');
-	return (my_paths);
 }

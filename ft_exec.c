@@ -1,6 +1,23 @@
 
 #include "./include/pipex.h"
 
+char	**find_path(char **env)
+{
+	char	*available_paths;
+	char	**my_paths;
+	int		i;
+
+	i = 0;
+	while (env[i] && !ft_strnstr(env[i], "PATH=", 5))
+		i++;
+	if (!env[i])
+		return (NULL);
+	available_paths = ft_substr(env[i], 5, ft_strlen(env[i] + 5));
+	my_paths = ft_split(available_paths, ':');
+	free (available_paths);
+	return (my_paths);
+}
+
 char	*verify_commands(char *cmd,char **paths)
 {
 	int		i;
@@ -29,6 +46,8 @@ void	call_execve(char *cmd,char **envp)
 	char	**paths;
 
 	paths = find_path(envp);
+	if (!paths)
+		exit_error(4);
 	splited_cmd = ft_split(cmd, ' ');
 	plain_path = verify_commands(splited_cmd[0], paths);
 	if (execve(plain_path, splited_cmd, envp) == -1)

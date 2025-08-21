@@ -40,6 +40,7 @@ typedef struct s_pipe
 int	main(int argc, char **argv, char **envp);
 void	init_here_doc(char **argv);
 void	create_here_doc(int *fd, char **argv);
+//int		init_args(int i, int argc, char **argv, int in_file, int out_file);
 
 //----------------------------------------ERRORS---------------------------------------//
 int		exit_error(int i);
@@ -48,7 +49,7 @@ void	free_array(char **str);
 //---------------------------------------PARSING---------------------------------------//
 char	**find_path(char **env);
 char	*verify_commands(char *cmd,char **paths);
-int		validate_files(int argc, char **argv, char **env);
+int		validate_files(int argc, char **argv);
 int		check_read(char *args);
 int		check_write(char *args);
 
