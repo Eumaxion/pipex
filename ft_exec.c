@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exec.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 16:49:41 by mlima-si          #+#    #+#             */
+/*   Updated: 2025/08/21 17:06:24 by mlima-si         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #include "./include/pipex.h"
 
@@ -7,11 +19,13 @@ char	**find_path(char **env)
 	char	**my_paths;
 	int		i;
 
+	if (!env)
+		exit(1);
 	i = 0;
 	while (env[i] && !ft_strnstr(env[i], "PATH=", 5))
 		i++;
 	if (!env[i])
-		return (NULL);
+		exit(1);
 	available_paths = ft_substr(env[i], 5, ft_strlen(env[i] + 5));
 	my_paths = ft_split(available_paths, ':');
 	free (available_paths);
@@ -31,7 +45,7 @@ char	*verify_commands(char *cmd,char **paths)
 		add_slash = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(add_slash, cmd);
 		free(add_slash);
-		if (access(full_path, F_OK) == 0)
+		if (access(full_path, F_OK | X_OK) == 0)
 			return (full_path);
 		free(full_path);
 		i++;
@@ -52,10 +66,7 @@ void	call_execve(char *cmd,char **envp)
 	plain_path = verify_commands(splited_cmd[0], paths);
 	if (execve(plain_path, splited_cmd, envp) == -1)
 	{
-		ft_putstr_fd(splited_cmd[0], 2);
-		ft_putendl_fd(": command not found", 2);
-		free_array(splited_cmd);
-		exit(1);
+		error(splited_cmd[0]);
 	}
 }
 

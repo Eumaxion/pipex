@@ -6,7 +6,7 @@
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:54:36 by mlima-si          #+#    #+#             */
-/*   Updated: 2025/08/12 17:44:43 by mlima-si         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:13:30 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,14 @@ typedef struct s_pipe
 int	main(int argc, char **argv, char **envp);
 void	init_here_doc(char **argv);
 void	create_here_doc(int *fd, char **argv);
+void	child(char **argv, char **envp, int *p_fd);
+void	parent(char **argv, char **envp, int *p_fd);
+
 //int		init_args(int i, int argc, char **argv, int in_file, int out_file);
 
 //----------------------------------------ERRORS---------------------------------------//
-int		exit_error(int i);
+void		exit_error(int i);
+void	error(char *arg);
 void	free_array(char **str);
 
 //---------------------------------------PARSING---------------------------------------//

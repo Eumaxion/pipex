@@ -1,8 +1,12 @@
 NAME = pipex
 
-SRCS = main.c errors.c parse.c validade_files.c ft_exec.c
+SRCS = main.c errors.c validade_files.c ft_exec.c
+
+BONUS_SRCS = bonus_main.c utils_here_doc.c errors.c validade_files.c ft_exec.c
 
 OBJS = $(SRCS:.c=.o)
+
+BONUS_OBJS = $(BONUS_SRCS:.c=.o)
 
 LIBFT = ./libft/libft.a
 
@@ -22,12 +26,17 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)\n COMPILATION DONE ✅ \n$(RESET) "
 
+bonus: $(BONUS_OBJS)
+	@cd libft && make
+	@$(CC) $(CFLAGS) $(BONUS_OBJS) $(LIBFT) -o $(NAME)
+	@echo "$(GREEN)\n BONUS COMPILATION DONE ✅ \n$(RESET) "
+
 .c.o:
 	@$(CC) $(FLAGS) -c  $< -o ${<:.c=.o}
 
 clean:
 	@make -C libft clean
-	@rm -f $(OBJS)
+	@rm -f $(OBJS) $(BONUS_OBJS)
 	@echo "$(YELLOW)\n OBJECTS REMOVED $(RESET) ✅ \n"
 
 fclean: clean
@@ -37,4 +46,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: bonus all clean fclean re

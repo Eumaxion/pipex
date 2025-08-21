@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   utils_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mlima-si <mlima-si@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:54:17 by mlima-si          #+#    #+#             */
-/*   Updated: 2025/08/12 17:21:52 by mlima-si         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:49:48 by mlima-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	init_here_doc(char **argv)
 	int		pfd[2];
 
 	if (pipe(pfd) == -1)
-		perror("pipe");
+	{
+		perror("pipex: ");
+		exit(1);
+	}
 	pid = fork();
 	if (!pid)
 		create_here_doc(pfd, argv);
