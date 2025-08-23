@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "./include/pipex.h"
 
 char	**find_path(char **env)
@@ -25,22 +24,27 @@ char	**find_path(char **env)
 	while (env[i] && !ft_strnstr(env[i], "PATH=", 5))
 		i++;
 	if (!env[i])
-		exit(1);
+		return (NULL);
 	available_paths = ft_substr(env[i], 5, ft_strlen(env[i] + 5));
+	if (!available_paths)
+		return (NULL);
 	my_paths = ft_split(available_paths, ':');
 	free (available_paths);
 	return (my_paths);
 }
 
-char	*verify_commands(char *cmd,char **paths)
+char	*verify_commands(char *cmd, char **paths)
 {
 	int		i;
 	char	*full_path;
 	char	*add_slash;
 
 	i = 0;
-	
-	while (paths[i])
+	if (!cmd)
+		return (NULL);
+	if (ft_strchr(cmd, '/') && access(cmd, F_OK | X_OK) == 0)
+		return (ft_strdup(cmd));
+	while (paths && paths[i])
 	{
 		add_slash = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(add_slash, cmd);
@@ -50,10 +54,10 @@ char	*verify_commands(char *cmd,char **paths)
 		free(full_path);
 		i++;
 	}
-	free_array(paths);
 	return (NULL);
 }
-void	call_execve(char *cmd,char **envp)
+
+void	call_execve(char *cmd, char **envp)
 {
 	char	*plain_path;
 	char	**splited_cmd;
@@ -63,11 +67,23 @@ void	call_execve(char *cmd,char **envp)
 	if (!paths)
 		exit_error(4);
 	splited_cmd = ft_split(cmd, ' ');
-	plain_path = verify_commands(splited_cmd[0], paths);
-	if (execve(plain_path, splited_cmd, envp) == -1)
+	if (!splited_cmd || !splited_cmd[0])
 	{
-		error(splited_cmd[0]);
+		error_not_found(splited_cmd, paths);
+		exit(127);
 	}
+	plain_path = verify_commands(splited_cmd[0], paths);
+	if (!plain_path)
+	{
+		error_not_found(splited_cmd, paths);
+		exit(127);
+	}
+	execve(plain_path, splited_cmd, envp);
+	perror("pipex");
+	free_array(splited_cmd);
+	free_array(paths);
+	free(plain_path);
+	exit(126);
 }
 
 void	pipex(char *cmd, char **envp)
@@ -90,6 +106,6 @@ void	pipex(char *cmd, char **envp)
 	{
 		close(pfd[1]);
 		dup2(pfd[0], 0);
-		wait(NULL);
+		waitpid(pid, NULL, 0);
 	}
 }

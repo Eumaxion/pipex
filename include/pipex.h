@@ -13,13 +13,21 @@
 #ifndef PIPEX_H
 # define PIPEX_H
 
+# include <stdio.h>
+# include <string.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include "../libft/libft.h"
+
 typedef struct s_command
 {
 	char				*path;
 	char				*command;
 	char				**args;
 	struct s_command	*next;
-} t_command;
+}	t_command;
 
 typedef struct s_pipe
 {
@@ -28,39 +36,31 @@ typedef struct s_pipe
 	t_command	*comands;
 }	t_pipe;
 
-# include <stdio.h>      // perror
-# include <string.h>     // strerror
-# include <unistd.h>     // read, write, close, access, dup, dup2, execve, fork, pipe
-# include <stdlib.h>     // malloc, free, exit
-# include <sys/wait.h>   // wait, waitpid
-# include <fcntl.h>		// open, unlink	
-# include "../libft/libft.h"
-
-//----------------------------------------MAIN----------------------------------------//
-int	main(int argc, char **argv, char **envp);
-void	init_here_doc(char **argv);
-void	create_here_doc(int *fd, char **argv);
-void	child(char **argv, char **envp, int *p_fd);
+//-----------------------MAIN----------------------//
+int		main(int argc, char **argv, char **envp);
 void	parent(char **argv, char **envp, int *p_fd);
+void	child(char **argv, char **envp, int *p_fd);
 
-//int		init_args(int i, int argc, char **argv, int in_file, int out_file);
-
-//----------------------------------------ERRORS---------------------------------------//
-void		exit_error(int i);
+//---------------------ERRORS----------------------//
+void	exit_error(int i);
 void	error(char *arg);
+void	error_not_found(char **cmd, char **paths);
 void	free_array(char **str);
 
-//---------------------------------------PARSING---------------------------------------//
+//-----------------------PARSING-------------------//
 char	**find_path(char **env);
-char	*verify_commands(char *cmd,char **paths);
+char	*verify_commands(char *cmd, char **paths);
 int		validate_files(int argc, char **argv);
 int		check_read(char *args);
 int		check_write(char *args);
 
-//----------------------------------------MAIN----------------------------------------//
-
-//---------------------------------------EXECUTE--------------------------------------//
+//------------------EXECUTE------------------------//
 void	pipex(char *cmd, char **envp);
-void	call_execve(char *cmd,char **envp);
+void	call_execve(char *cmd, char **envp);
+
+//-------------------BONUS------------------------//
+
+void	init_here_doc(char **argv);
+void	create_here_doc(int *fd, char **argv);
 
 #endif

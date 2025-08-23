@@ -17,7 +17,7 @@ int	check_read(char *args)
 	if (access(args, F_OK) == 0)
 	{
 		if (access(args, R_OK) == 0)
-			return(0);
+			return (0);
 		else
 		{
 			ft_putstr_fd("pipex: ", 2);

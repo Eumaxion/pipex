@@ -17,7 +17,7 @@ void	create_here_doc(int *fd, char **argv)
 	char	*line;
 
 	close(fd[0]);
-	while(1)
+	while (1)
 	{
 		line = get_next_line(0);
 		if (!ft_strncmp(line, argv[2], ft_strlen(argv[2])))

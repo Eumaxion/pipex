@@ -22,7 +22,7 @@ void	error(char *arg)
 void	exit_error(int i)
 {
 	if (i == 1)
-		ft_putstr_fd("Invalid argument number\n", 2);
+		ft_putstr_fd("Usage: ./pipex infile cmd1 cmd2 outfile\n", 2);
 	if (i == 2)
 		ft_putstr_fd("Pipe Error.\n", 2);
 	if (i == 3)
@@ -34,12 +34,21 @@ void	exit_error(int i)
 	exit(EXIT_FAILURE);
 }
 
+void	error_not_found(char **cmd, char **paths)
+{
+	ft_putstr_fd("pipex: command not found: ", 2);
+	ft_putstr_fd(cmd[0], 2);
+	ft_putstr_fd("\n", 2);
+	free_array(cmd);
+	free_array(paths);
+}
+
 void	free_array(char **str)
 {
 	int	i;
 
 	i = -1;
-	while(str[++i])
+	while (str[++i])
 		free(str[i]);
 	free(str);
 }

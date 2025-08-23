@@ -15,32 +15,33 @@
 void	child(char **argv, char **envp, int *p_fd)
 {
 	int	in;
-	in = open(argv[1], O_RDONLY);
+
+	in = open(argv[1], O_RDONLY, 0777);
 	if (in == -1)
 		error(argv[1]);
 	dup2(p_fd[1], STDOUT_FILENO);
 	dup2(in, STDIN_FILENO);
 	close(p_fd[0]);
-	call_execve(argv[2],envp);
+	call_execve(argv[2], envp);
 }
 
 void	parent(char **argv, char **envp, int *p_fd)
 {
 	int	out;
-	out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+
+	out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (out == -1)
 		error(argv[4]);
 	dup2(p_fd[0], STDIN_FILENO);
 	dup2(out, STDOUT_FILENO);
 	close(p_fd[1]);
-	call_execve(argv[3],envp);
+	call_execve(argv[3], envp);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	
-	int		pid;
-	int		p_fd[2];
+	int	pid;
+	int	p_fd[2];
 
 	if (argc != 5)
 		exit_error (1);
@@ -53,4 +54,5 @@ int	main(int argc, char **argv, char **envp)
 		child(argv, envp, p_fd);
 	waitpid(pid, NULL, 0);
 	parent(argv, envp, p_fd);
+	return (0);
 }
